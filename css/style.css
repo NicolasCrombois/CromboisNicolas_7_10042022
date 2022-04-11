@@ -1,0 +1,190 @@
+.filters{
+    position: relative;
+}
+.logo{
+    margin-top: 10px;
+    margin-bottom: 25px;
+    width: 350px;
+}
+.search-bar{
+    width: 100%;
+    background-color: lightgray;
+    border: 0px;
+    border-radius: 5px;
+    padding: 14px;
+    padding-left: 18px;
+}
+.container-searchBar{
+    position: relative;
+}
+.container-searchBar::after{
+    position: absolute;
+    font-family: "Font Awesome 5 Free"; 
+	font-weight: 600;
+	content: "\f002";
+    font-style: normal;
+    font-size: 32px;
+    font-variant: normal;
+    text-rendering: auto;
+    right: 32px;
+    -webkit-font-smoothing: antialiased;
+}
+.all_element_dropbox{
+    padding-top: 15px;
+}
+#inputIngredient{
+    background: steelblue;
+    min-width: 280px;
+}
+#optionIngredient{
+    background: steelblue;
+}
+#optionIngredient  div:hover{
+    background: rgb(55, 110, 155);
+}
+#inputAppareil{
+    background: #1BC47D;
+}
+#optionAppareil{
+    background: #1BC47D;
+}
+#optionAppareil  div:hover{
+    background: #109960;
+}
+#inputUstensile{
+    background: #ED6454;
+}
+#optionUstensile{
+    background: #ED6454;
+}
+#optionUstensile  div:hover{
+    background: #c0473a;
+}
+.all_dropbox{
+    height: 180px;
+    position: relative;
+    width: 100%;
+}
+.filters .dropbox{
+    margin: 0;
+    margin-left: 12px;
+    z-index: 1;
+    padding: 0;
+    box-sizing: border-box;
+    transform: translate(0, 12px);
+    
+}.filters .dropbox::before{
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    transform-origin: 50% 50%;
+    transform: rotate(45deg);
+    right: 18px;
+    z-index: 2;
+    top: 24px;
+    transition: transform .5s, top .5s;
+}.filters .dropbox.active::before{
+    transform: rotate(-135deg);
+    top: 20px;
+}
+.filters .dropbox input{
+    position: absolute;
+    padding: 15px 20px;
+    font-size: 17px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    outline: none;
+    font-family: "DM Sans", sans-serif;
+    z-index: 0;
+    width: 100%;
+}
+.filters .dropbox input::placeholder{
+    color: white;
+}
+.filters .dropbox .option{
+    display: none;
+    position: absolute;
+    top: 55px;
+    flex-direction: column-reverse;
+    border-radius:0 0 8px 8px ;
+    color: white;
+    margin-top: -6px;
+    padding-top: 10px;
+    z-index: 1;
+    overflow: hidden;
+    max-height: 350px;
+    overflow-y: scroll;
+}
+.filters .dropbox .option div{
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+}
+.filters .dropbox.active .option{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#optionIngredient::-webkit-scrollbar, #optionUstensile::-webkit-scrollbar, #optionAppareil::-webkit-scrollbar {
+  width: 20px;
+}
+#optionIngredient::-webkit-scrollbar-track, #optionUstensile::-webkit-scrollbar-track{
+  box-shadow: inset 0 0 5px rgb(0, 0, 0); 
+  border-radius: 10px;
+}
+#optionIngredient::-webkit-scrollbar-thumb, #optionUstensile::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+}
+#optionIngredient::-webkit-scrollbar-thumb:hover{
+  background: rgb(42, 94, 138); 
+}
+#optionUstensile::-webkit-scrollbar-thumb:hover{
+  background: #c74739; 
+}
+#optionIngredient::-webkit-scrollbar-thumb{
+  background: rgb(132, 188, 235); 
+}
+#optionUstensile::-webkit-scrollbar-thumb{
+  background: #fc7465; 
+}
+
+#itemsIngredient, #itemsUstensile, #itemsAppareil {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-start;
+    align-content: flex-end;
+    margin-left: 4px;
+}
+#itemsIngredient div, #itemsUstensile div, #itemsAppareil div{
+    color: white;
+    padding: 6px 25px 6px 25px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    border-radius: 50px;
+}
+#itemsIngredient div{
+    background-color: rgb(42, 94, 138);
+}
+#itemsUstensile div{
+    background-color: #c74739;
+}
+#itemsAppareil div{
+    background-color: #1ba36a;
+}
+#itemsIngredient div p, #itemsAppareil div p, #itemsUstensile div p{
+    display: inline;
+}
+#itemsIngredient div i, #itemsAppareil div i, #itemsUstensile div i{
+    font-size: 18px;
+    margin-left: 15px;
+    transform: translate(0%, 10%);
+}

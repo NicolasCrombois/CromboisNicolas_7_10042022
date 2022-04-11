@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <meta name="viewport">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+    <title>Les Petits Plats</title>
+  </head>
+  <body>
+    <header role="banner" class="d-flex justify-content-center ">
+        <a href="index.html"><img src="assets/images/logo.png" class="logo" alt="Logo Les Petits Plats" /></a>
+    </header>
+    <div class="container filters">
+      <div class="row">
+        <div class="cols col-12 container-searchBar">
+          <input class="search-bar" placeholder="Rechercher votre recette ..."/>
+        </div>
+      </div> 
+      <div class="all_element_dropbox">
+        <div class="row" class="item-selected">
+          <div class="cols col-4" id="itemsIngredient">
+
+          </div>
+          <div class="cols col-3" id="itemsAppareil">
+
+          </div>
+          <div class="cols col-3" id="itemsUstensile">
+
+          </div>
+        </div>
+        <div class="row all_dropbox">
+          <div class="dropbox container-ingredient cols col-4">
+            <input type="text"
+              aria-labelledby="filter-ingredient"
+              aria-haspopup="listbox"
+              aria-expanded="true"
+              role="input"
+              class="inputBox"
+              id="inputIngredient"
+              placeholder="Rechercher un ingrédient"
+              >
+            <div class="option"
+            role="listbox" 
+            id="optionIngredient"
+            aria-haspopup="listbox"
+            aria-activedescendant="true"
+            aria-selected
+            aria-labelledby="filter-ingredient">
+            </div>
+          </div>
+          <div class="dropbox container-appareil cols col-3">
+            <input type="text"
+              aria-labelledby="filter-appareil"
+              aria-haspopup="listbox"
+              aria-expanded="true"
+              role="input"
+              class="inputBox"
+              id="inputAppareil"
+              placeholder="Appareils"
+              >
+            <div class="option"
+            role="listbox" 
+            id="optionAppareil"
+            aria-haspopup="listbox"
+            aria-activedescendant="true"
+            aria-selected
+            aria-labelledby="filter-appareil">
+            </div>
+          </div>
+          <div class="dropbox container-ustensile cols col-3">
+            <input type="text"
+              aria-labelledby="filter-ustensile"
+              aria-haspopup="listbox"
+              aria-expanded="true"
+              role="input"
+              class="inputBox"
+              id="inputUstensile"
+              placeholder="Ustensile"
+              >
+            <div class="option"
+            role="listbox" 
+            id="optionUstensile"
+            aria-haspopup="listbox"
+            aria-activedescendant="true"
+            aria-selected
+            aria-labelledby="filter-ustensile">
+            </div>
+          </div>
+        </div>
+      </div>
+      <main id="all_recipes">
+      </main>
+    </div>
+    <script src="data/recipes.js"></script>
+    <script src="scripts/factories/elementDropbox.js"></script>
+    <script src="https://kit.fontawesome.com/1946d7ed35.js" crossorigin="anonymous"></script>
+    <script src="scripts/index.js"></script>
+  </body>
+</html>
