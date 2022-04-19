@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="row all_dropbox">
-          <div class="dropbox container-ingredient cols col-4">
+          <div class="dropbox container-ingredient cols col-2" id="ingredient">
             <input type="text"
               aria-labelledby="filter-ingredient"
               aria-haspopup="listbox"
@@ -40,9 +40,9 @@
               role="input"
               class="inputBox"
               id="inputIngredient"
-              placeholder="Rechercher un ingrédient"
+              placeholder="Ingrédients"
               >
-            <div class="option"
+            <div class="option cols col-12"
             role="listbox" 
             id="optionIngredient"
             aria-haspopup="listbox"
@@ -51,7 +51,7 @@
             aria-labelledby="filter-ingredient">
             </div>
           </div>
-          <div class="dropbox container-appareil cols col-3">
+          <div class="dropbox container-appareil cols col-2" id="appareil">
             <input type="text"
               aria-labelledby="filter-appareil"
               aria-haspopup="listbox"
@@ -61,7 +61,7 @@
               id="inputAppareil"
               placeholder="Appareils"
               >
-            <div class="option"
+            <div class="option cols col-12"
             role="listbox" 
             id="optionAppareil"
             aria-haspopup="listbox"
@@ -70,7 +70,7 @@
             aria-labelledby="filter-appareil">
             </div>
           </div>
-          <div class="dropbox container-ustensile cols col-3">
+          <div class="dropbox container-ustensile cols col-2" id="ustensile">
             <input type="text"
               aria-labelledby="filter-ustensile"
               aria-haspopup="listbox"
@@ -80,7 +80,7 @@
               id="inputUstensile"
               placeholder="Ustensile"
               >
-            <div class="option"
+            <div class="option cols col-12"
             role="listbox" 
             id="optionUstensile"
             aria-haspopup="listbox"
@@ -91,10 +91,11 @@
           </div>
         </div>
       </div>
-      <main id="all_recipes">
+      <main id="all_recipes" class="cols col-12">
       </main>
     </div>
     <script src="data/recipes.js"></script>
+    <script src="scripts/factories/recipes.js"></script>
     <script src="scripts/factories/elementDropbox.js"></script>
     <script src="https://kit.fontawesome.com/1946d7ed35.js" crossorigin="anonymous"></script>
     <script src="scripts/index.js"></script>

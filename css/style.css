@@ -34,7 +34,6 @@
 }
 #inputIngredient{
     background: steelblue;
-    min-width: 280px;
 }
 #optionIngredient{
     background: steelblue;
@@ -122,7 +121,7 @@
     overflow-y: scroll;
 }
 .filters .dropbox .option div{
-    padding: 15px 20px;
+    padding: 15px 5px 15px 15px;
     cursor: pointer;
     font-size: 17px;
     font-weight: bold;
@@ -155,7 +154,6 @@
 #optionUstensile::-webkit-scrollbar-thumb{
   background: #fc7465; 
 }
-
 #itemsIngredient, #itemsUstensile, #itemsAppareil {
     display: flex;
     flex-wrap: wrap;
@@ -166,7 +164,7 @@
 }
 #itemsIngredient div, #itemsUstensile div, #itemsAppareil div{
     color: white;
-    padding: 6px 25px 6px 25px;
+    padding: 6px 10px 6px 10px;
     margin-bottom: 5px;
     margin-right: 5px;
     border-radius: 50px;
@@ -187,4 +185,49 @@
     font-size: 18px;
     margin-left: 15px;
     transform: translate(0%, 10%);
+}
+#all_recipes{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+.item-board{
+    padding: 8px;
+}
+.item-board .item-board_content{
+    height: 100%;
+}
+.item-board .fakeImg{
+    border-radius: 15px 15px 0 0;
+    height: 180px;
+    background-color: #c4c4c4;
+}
+.item-board .item-board___information{
+    padding: 18px;
+    background-color: #e6e6e6;
+    height: calc(100% - 180px);
+    border-radius: 0 0 15px 15px;
+}
+.item-board h1{
+    font-size: 18px;
+}
+.item-board .time{
+    text-align: right;
+}
+.item-board .item-board___information .item-board___information__ingredients{
+    font-size: 14px;
+    margin-top: 8px;
+}
+.item-board .item-board___information .item-board___information__ingredients p{ 
+    margin-bottom: 2px;
+}
+.item-board .item-board___information .item-board_information__description{
+    margin-top: 15px;
+    font-size: 14px;
+    max-height: 170px;
+    display: -webkit-box;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;  
 }

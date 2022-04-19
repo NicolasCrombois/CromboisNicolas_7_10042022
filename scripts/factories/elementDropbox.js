@@ -5,6 +5,7 @@ function itemDropboxFactory(data) {
     function getOption(type) {
         const div = document.createElement( 'div' );
         div.id = nom.replace(' ', '_');
+        div.classList.add('cols', 'col-4');
         div.innerHTML = nom
         div.onclick = function(){addItem(type, nom)};
         return (div);
