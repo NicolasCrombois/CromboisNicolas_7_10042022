@@ -1,4 +1,5 @@
 //Permet d'afficher ou cacher l'ensemble de la dropbox contenant les filtres
+//ou de traiter l'action d'une entrée clavier (KeyUp)
 let all_dropbox = document.querySelectorAll('.dropbox');
 all_dropbox.forEach(dropbox => { 
     dropbox.querySelector('.inputBox').addEventListener("click", function(){
@@ -8,18 +9,23 @@ all_dropbox.forEach(dropbox => {
         setActiveListOptions(event, dropbox);
     })
 });
+document.querySelector('.search-bar').addEventListener("keyup", function(){if(recipes.length!=0){writeOnSearchBar(false)}})
 
 //Chargement des recettes 
 function loadRecipes(list_recipes){
     document.getElementById('all_recipes').innerHTML = ''
-    if(list_recipes[0].score === undefined){
-        list_recipes.forEach((recipe) =>  {
-            document.getElementById('all_recipes').appendChild(recipeFactory(recipe).getCardRecipe())
-        })
-    }else{
-        list_recipes.sort(function (a, b) {return b.score - a.score}).forEach((recipeAndScore) =>  {
-            document.getElementById('all_recipes').appendChild(recipeFactory(recipeAndScore.recipe).getCardRecipe());
-        })
+    if(list_recipes.length != 0){
+        if(list_recipes[0].score === undefined){
+            list_recipes.forEach((recipe) =>  {
+                document.getElementById('all_recipes').appendChild(recipeFactory(recipe).getCardRecipe())
+            })
+        }else{
+            list_recipes.sort(function (a, b) {return b.score - a.score}).forEach((recipeAndScore) =>  {
+                document.getElementById('all_recipes').appendChild(recipeFactory(recipeAndScore.recipe).getCardRecipe());
+            })
+        }
+    } else {
+        document.getElementById('all_recipes').innerHTML = '<p> Aucune recette ne correspond à cette recherche </p>';
     }
 }
 
@@ -99,6 +105,7 @@ let ustensiles = []
 let ingredientsWithoutItemSelected = []
 let appareilsWithoutItemSelected = []
 let ustensilesWithoutItemSelected = []
+let recipeWithScore = []
 function loadIngredientAppareilUstensile(){
     recipes.forEach(recipe => {
         recipe.ingredients.forEach(ingredient => {
@@ -251,9 +258,14 @@ function removeItem(type, nom){
 }
 function onSearch(ingredientsSelected, appareilsSelected, ustensilesSelected){
     if(ingredientsSelected.length == 0 && ustensilesSelected.length == 0 && appareilsSelected.length == 0){
-        loadRecipes(recipes)
+        recipeWithScore = []
+        if(document.querySelector('.search-bar').value.length != 0){
+            writeOnSearchBar(false)
+        }else{
+            loadRecipes(recipes)
+        }
     }else{
-        const recipeWithScore = recipes.map(function (recipe) {
+        recipeWithScore = recipes.map(function (recipe) {
             const score_ingredient = recipe.ingredients.map((ingredient) => {
                 if(ingredientsSelected.includes(ingredient.ingredient)){
                     return true;
@@ -277,6 +289,51 @@ function onSearch(ingredientsSelected, appareilsSelected, ustensilesSelected){
                 return {recipe, score}
             }
         }).filter((element) => {if(element != undefined ){ return element}})
+
+        writeOnSearchBar(true)
+        if (document.querySelector('.search-bar').value.length == 0){
+            loadRecipes(recipeWithScore)
+        }
+    }
+}
+
+function writeOnSearchBar(pathOnSearch){
+    const value = document.querySelector('.search-bar').value;
+    const recipeTmp = [];
+    if( value != null && value.length != 0 ){
+        if(recipeWithScore.length != 0){
+            recipeWithScore.forEach(recipe => {
+                if(recipe.recipe.description.toUpperCase().includes(value.toUpperCase())){
+                    recipeTmp.push({'score' : recipe.score++, 'recipe' : recipe.recipe})
+                }else if(recipe.recipe.name.toUpperCase().includes(value.toUpperCase())){
+                    recipeTmp.push({'score' : recipe.score++, 'recipe' : recipe.recipe})
+                }else if(recipe.recipe.ingredients.length != 0){
+                    recipe.recipe.ingredients.forEach(ingred => {
+                        if( ingred.ingredient.toUpperCase().includes(value.toUpperCase()) && !recipeTmp.includes(recipe) ){
+                            recipeTmp.push({'score' : recipe.score++, 'recipe' : recipe.recipe})
+                        }
+                    });
+                }
+            });
+        }else{
+            recipes.forEach(recipe => {
+                if(recipe.description.includes(value)){
+                    recipeTmp.push(recipe)
+                }else if(recipe.name.includes(value)){
+                    recipeTmp.push(recipe)
+                }else if(recipe.ingredients.length != 0){
+                    recipe.ingredients.forEach(ingred => {
+                        if( ingred.ingredient.includes(value) && !recipeTmp.includes(recipe) ){
+                            recipeTmp.push(recipe)
+                        }
+                    });
+                }
+            });
+        }
+        loadRecipes(recipeTmp)
+    }else if(!pathOnSearch){
+        onSearch(listIngredientSelected, listAppareilSelected, listUstensileSelected)
+    }else{
         loadRecipes(recipeWithScore)
     }
 }
