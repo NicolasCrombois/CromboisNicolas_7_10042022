@@ -5,71 +5,83 @@ all_dropbox.forEach(dropbox => {
     showListOptions(dropbox)
     })
     dropbox.querySelector('.inputBox').addEventListener("keyup",  event => {
-        setActiveListOptions(event, dropbox)
+        setActiveListOptions(event, dropbox);
     })
 });
 
 //Chargement des recettes 
-recipes.forEach((recipe) =>  {
-    document.getElementById('all_recipes').appendChild(recipeFactory(recipe).getCardRecipe())
-})
+function loadRecipes(list_recipes){
+    document.getElementById('all_recipes').innerHTML = ''
+    if(list_recipes[0].score === undefined){
+        list_recipes.forEach((recipe) =>  {
+            document.getElementById('all_recipes').appendChild(recipeFactory(recipe).getCardRecipe())
+        })
+    }else{
+        list_recipes.sort(function (a, b) {return b.score - a.score}).forEach((recipeAndScore) =>  {
+            document.getElementById('all_recipes').appendChild(recipeFactory(recipeAndScore.recipe).getCardRecipe());
+        })
+    }
+}
+
 function closeDrop(id){
-    if(id == 'ingredient'){ text = "Ingrédients" }
-    if(id == 'appareil'){ text = "Appareils" }
-    if(id == 'ustensile'){ text = "Ustensiles" }
+    if(id == 'ingredient'){ text = "Ingrédients"; itemsList = 'itemsIngredient'}
+    if(id == 'appareil'){ text = "Appareils"; itemsList = 'itemsAppareil' }
+    if(id == 'ustensile'){ text = "Ustensiles"; itemsList = 'itemsUstensile' }
     document.getElementById(id).classList.remove('col-5');
     document.getElementById(id).classList.add('col-2');
     document.getElementById(id).classList.remove('active');
     document.querySelector('#'+id+' .inputBox').placeholder = text
+    var listItem = document.getElementById(itemsList);
+    listItem.classList.remove('col-5');
+    listItem.classList.add('col-2');
 }
 
 function showListOptions(element){
-    if(!element.classList.contains('active')){
+    if(element.classList.contains('active')){
         closeDrop('ingredient');
         closeDrop('ustensile');
         closeDrop('appareil');
-    }
-    if(element.id == "ingredient"){
-        if(element.classList.contains('active')){
-            element.querySelector('.inputBox').placeholder = 'Ingrédients';
-            element.classList.remove('col-5');
-            element.classList.add('col-2');
-        }else{
+    }else{
+        if(element.id == "ingredient"){
+            closeDrop('ustensile');
+            closeDrop('appareil');
             element.querySelector('.inputBox').placeholder = 'Rechercher un ingrédient';
             element.classList.remove('col-2');
             element.classList.add('col-5');
+            var listItem = document.getElementById('itemsIngredient');
+            listItem.classList.add('col-5');
+            listItem.classList.remove('col-2');
+            element.classList.toggle('active');
         }
-    }
-    if(element.id == "ustensile"){
-        if(element.classList.contains('active')){
-            element.querySelector('.inputBox').placeholder = 'Ustensiles';
-            element.classList.remove('col-5');
-            element.classList.add('col-2');
-        }else{
+        if(element.id == "ustensile"){
+            closeDrop('ingredient');
+            closeDrop('appareil');
             element.querySelector('.inputBox').placeholder = 'Rechercher un ustensile';
             element.classList.remove('col-2');
             element.classList.add('col-5');
+            var listItem = document.getElementById('itemsUstensile');
+            listItem.classList.add('col-5');
+            listItem.classList.remove('col-2');
+            element.classList.toggle('active');
         }
-    }
-    if(element.id == "appareil"){
-        if(element.classList.contains('active')){
-            element.querySelector('.inputBox').placeholder = 'Appareils';
-            element.classList.remove('col-5');
-            element.classList.add('col-2');
-        }else{
+        if(element.id == "appareil"){
+            closeDrop('ingredient');
+            closeDrop('ustensile');
             element.querySelector('.inputBox').placeholder = 'Rechercher un appareil';
             element.classList.remove('col-2');
             element.classList.add('col-5');
+            var listItem = document.getElementById('itemsAppareil');
+            listItem.classList.add('col-5');
+            listItem.classList.remove('col-2');
+             element.classList.toggle('active');
         }
     }
-    element.classList.toggle('active');
 }
 function setActiveListOptions(event, element){
     if(!element.classList.contains('active')){
-        showListOptions(element)
-    }else{
-        searchInList(element)
+            showListOptions(element)
     }
+    searchInList(element)
 }
 
 //Trie par ordre alphabétique une liste
@@ -84,9 +96,9 @@ function orderAlphabetique(liste){
 let ingredients = []
 let appareils = []
 let ustensiles = []
-let initIngredients = []
-let initAppareils = []
-let initUstensiles = []
+let ingredientsWithoutItemSelected = []
+let appareilsWithoutItemSelected = []
+let ustensilesWithoutItemSelected = []
 function loadIngredientAppareilUstensile(){
     recipes.forEach(recipe => {
         recipe.ingredients.forEach(ingredient => {
@@ -103,56 +115,68 @@ function loadIngredientAppareilUstensile(){
             }
         });
     });
-    initUstensiles = ustensiles = orderAlphabetique(ustensiles);
-    initIngredients = ingredients = orderAlphabetique(ingredients);
-    initAppareils = appareils = orderAlphabetique(appareils);
+    ustensilesWithoutItemSelected = ustensiles = orderAlphabetique(ustensiles);
+    ingredientsWithoutItemSelected = ingredients = orderAlphabetique(ingredients);
+    appareilsWithoutItemSelected = appareils = orderAlphabetique(appareils);
 
 }
 function searchInList(element){
     if(element.id == 'ingredient'){
-        let wordSearch = document.getElementById('inputIngredient').value;
-        ingredients = initIngredients.filter(function(item) {
-            return item.toLowerCase().indexOf(wordSearch.toLowerCase()) !== -1
-        })
-        setItemsIngredient()
+        let wordSearch = document.getElementById('inputIngredient').value
+        if(wordSearch.length > 0){
+            setItemsIngredient(ingredientsWithoutItemSelected.filter(function(item) {
+                return item.toLowerCase().indexOf(wordSearch.toLowerCase()) !== -1
+            }))
+        }else{
+            ingredientsWithoutItemSelected = ingredients;
+            setItemsIngredient(ingredientsWithoutItemSelected);
+        }
     }
     if(element.id == 'ustensile'){
         let wordSearch = document.getElementById('inputUstensile').value;
-        ustensiles = initUstensiles.filter(function(item) {
-            return item.toLowerCase().indexOf(wordSearch.toLowerCase()) !== -1
-        })
-        setItemsUstensile()
+        if(wordSearch.length > 0){
+            setItemsUstensile(ustensilesWithoutItemSelected.filter(function(item) {
+                return item.toLowerCase().indexOf(wordSearch.toLowerCase()) !== -1
+            }))
+        }else{
+            ustensilesWithoutItemSelected = ustensiles;
+            setItemsUstensile(ustensilesWithoutItemSelected)
+        }
     }
     if(element.id == 'appareil'){
         let wordSearch = document.getElementById('inputAppareil').value;
-        appareils = initAppareils.filter(function(item) {
-            return item.toLowerCase().indexOf(wordSearch.toLowerCase()) !== -1
-        })
-        setItemsAppareil()
+        if(wordSearch.length > 0){
+            setItemsAppareil(appareilsWithoutItemSelected.filter(function(item) {
+                return item.toLowerCase().indexOf(wordSearch.toLowerCase()) !== -1
+            }))
+        }else{
+            appareilsWithoutItemSelected = appareils;
+            setItemsAppareil(appareilsWithoutItemSelected)
+        }
     }
 }
-function setItemsIngredient(){
+function setItemsIngredient(list){
     document.getElementById('optionIngredient').innerHTML = ''
-    if(ingredients.length>0){
-        ingredients.forEach(ingredient => {
+    if(list.length>0){
+        list.forEach(ingredient => {
             const containerOptionIngredient = document.getElementById('optionIngredient');
             containerOptionIngredient.appendChild(itemDropboxFactory(ingredient).getOption('ingredient'));
         })
     }
 }
-function setItemsAppareil(){
+function setItemsAppareil(list){
     document.getElementById('optionAppareil').innerHTML = ''
-    if(appareils.length>0){
-        appareils.forEach(appareil => {
+    if(list.length>0){
+        list.forEach(appareil => {
             const containerOptionAppareil = document.getElementById('optionAppareil');
             containerOptionAppareil.appendChild(itemDropboxFactory(appareil).getOption('appareil'));
         })
     }
 }
-function setItemsUstensile(){
+function setItemsUstensile(list){
     document.getElementById('optionUstensile').innerHTML = ''
-    if(ustensiles.length>0){
-        ustensiles.forEach(ustensile => {
+    if(list.length>0){
+        list.forEach(ustensile => {
             const containerOptionUstensile = document.getElementById('optionUstensile');
             containerOptionUstensile.appendChild(itemDropboxFactory(ustensile).getOption('ustensile'));
         })
@@ -170,61 +194,96 @@ function addItem(type, nom){
     if(type == 'ingredient'){
         object = 'itemsIngredient';
         listSelected = listIngredientSelected;
-        ingredients.splice(ingredients.indexOf(nom), 1);
-        setItemsIngredient()
+        ingredientsWithoutItemSelected.splice(ingredientsWithoutItemSelected.indexOf(nom), 1);
+        searchInList(document.querySelector('.container-ingredient'));
     }
     if(type == 'appareil'){
         object = 'itemsAppareil';
         listSelected = listAppareilSelected;
         appareils.splice(appareils.indexOf(nom), 1);
-        setItemsAppareil()
+        appareilsWithoutItemSelected = appareils;
+        searchInList(document.querySelector('.container-appareil'));
     }
     if(type == 'ustensile'){
         object = 'itemsUstensile';
         listSelected = listUstensileSelected;
         ustensiles.splice(ustensiles.indexOf(nom), 1);
-        setItemsUstensile()
+        ustensilesWithoutItemSelected = ustensiles;
+        searchInList(document.querySelector('.container-ustensile'));
     }
     if(!listSelected.includes(nom)){
         listSelected.push(nom);
         const container = document.getElementById(''+object);
         container.appendChild(itemDropboxFactory(nom).getOptionDeleteable(type));
     }
+    onSearch(listIngredientSelected, listAppareilSelected, listUstensileSelected)
 }
 function removeItem(type, nom){
     if(type == 'ingredient'){
         object = 'itemsIngredient';
         listSelected = listIngredientSelected;
-        ingredients.push(nom);
+        ingredientsWithoutItemSelected.push(nom);
         searchInList(document.querySelector('.container-ingredient'))
-        orderAlphabetique(ingredients)
-        setItemsIngredient()
+        orderAlphabetique(ingredientsWithoutItemSelected)
+        setItemsIngredient(ingredientsWithoutItemSelected)
     }
     if(type == 'appareil'){
         object = 'itemsAppareil';
         listSelected = listAppareilSelected;
-        appareils.push(nom);
+        appareilsWithoutItemSelected.push(nom);
         searchInList(document.querySelector('.container-appareil'))
-        orderAlphabetique(appareils)
-        setItemsAppareil()
+        orderAlphabetique(appareilsWithoutItemSelected)
+        setItemsAppareil(appareilsWithoutItemSelected)
     }
     if(type == 'ustensile'){
         object = 'itemsUstensile';
         listSelected = listUstensileSelected;
-        ustensiles.push(nom);
+        ustensilesWithoutItemSelected.push(nom);
         searchInList(document.querySelector('.container-ustensile'))
-        orderAlphabetique(ustensiles)
-        setItemsUstensile()
+        orderAlphabetique(ustensilesWithoutItemSelected)
+        setItemsUstensile(ustensilesWithoutItemSelected)
     }
     if(listSelected.includes(nom)){
         listSelected.splice(listSelected.indexOf(nom), 1);
         document.querySelector('#'+object+' #'+(nom.replaceAll(' ', '_'))).remove();
     }
+    onSearch(listIngredientSelected, listAppareilSelected, listUstensileSelected)
+}
+function onSearch(ingredientsSelected, appareilsSelected, ustensilesSelected){
+    if(ingredientsSelected.length == 0 && ustensilesSelected.length == 0 && appareilsSelected.length == 0){
+        loadRecipes(recipes)
+    }else{
+        const recipeWithScore = recipes.map(function (recipe) {
+            const score_ingredient = recipe.ingredients.map((ingredient) => {
+                if(ingredientsSelected.includes(ingredient.ingredient)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }).filter((validation) => {if (validation == true){return validation}}).length;
+            var score_appareil = 0;
+            if(appareilsSelected.includes(recipe.appliance)){
+                score_appareil++
+            }
+            const score_ustensile = recipe.ustensils.map((ustensils) => {
+                if(ustensilesSelected.includes(ustensils)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }).filter((validation) => {if (validation == true){return validation}}).length;
+            const score = score_ingredient + score_appareil + score_ustensile;
+            if( score > 0 ){
+                return {recipe, score}
+            }
+        }).filter((element) => {if(element != undefined ){ return element}})
+        loadRecipes(recipeWithScore)
+    }
 }
 
 
-
+loadRecipes(recipes)
 loadIngredientAppareilUstensile()
-setItemsIngredient()
-setItemsAppareil()
-setItemsUstensile()
+setItemsIngredient(ingredientsWithoutItemSelected)
+setItemsAppareil(appareilsWithoutItemSelected)
+setItemsUstensile(ustensilesWithoutItemSelected)

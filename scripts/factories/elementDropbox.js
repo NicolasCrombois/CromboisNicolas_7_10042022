@@ -16,6 +16,7 @@ function itemDropboxFactory(data) {
         const p = document.createElement( 'p' );
         const i = document.createElement( 'i' );
         i.classList.add('fa-solid', 'fa-xmark');
+        
         i.onclick = function(){removeItem(type, nom)};
         div.id = nom.replaceAll(' ', '_');
         p.innerHTML = nom

@@ -44,7 +44,7 @@ function recipeFactory(data) {
         row2.classList.add('row');
 
         const listIngredient = document.createElement('div');
-        listIngredient.classList.add('cols', 'col-5', 'item-board_information__ingredients')
+        listIngredient.classList.add('cols', 'col-6', 'item-board_information__ingredients')
         ingredients.forEach(ingredient => {
             const pI = document.createElement('p');
             if(!ingredient.unit){
@@ -60,7 +60,7 @@ function recipeFactory(data) {
             listIngredient.appendChild(pI);
         });
         const descriptionDiv = document.createElement('div');
-        descriptionDiv.classList.add('cols', 'col-7', 'item-board_information__description')
+        descriptionDiv.classList.add('cols', 'col-6', 'item-board_information__description')
         descriptionDiv.innerHTML = description;
 
         div.appendChild(img);

@@ -167,7 +167,7 @@
     padding: 6px 10px 6px 10px;
     margin-bottom: 5px;
     margin-right: 5px;
-    border-radius: 50px;
+    border-radius: 5px;
 }
 #itemsIngredient div{
     background-color: rgb(42, 94, 138);
@@ -222,12 +222,18 @@
     margin-bottom: 2px;
 }
 .item-board .item-board___information .item-board_information__description{
-    margin-top: 15px;
-    font-size: 14px;
+    font-size: 12px;
     max-height: 170px;
     display: -webkit-box;
     overflow : hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;  
+}
+
+.item-board_information__ingredients{
+    font-size: 12px
+}
+.item-board_information__ingredients p {
+    margin-bottom: 0;
 }
