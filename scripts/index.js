@@ -302,33 +302,36 @@ function writeOnSearchBar(pathOnSearch){
     const recipeTmp = [];
     if( value != null && value.length != 0 ){
         if(recipeWithScore.length != 0){
-            recipeWithScore.forEach(recipe => {
+            for (let index = 0; index < recipeWithScore.length; index++) {
+                const recipe = recipeWithScore[index];
                 if(recipe.recipe.description.toUpperCase().includes(value.toUpperCase())){
                     recipeTmp.push({'score' : recipe.score++, 'recipe' : recipe.recipe})
                 }else if(recipe.recipe.name.toUpperCase().includes(value.toUpperCase())){
                     recipeTmp.push({'score' : recipe.score++, 'recipe' : recipe.recipe})
                 }else if(recipe.recipe.ingredients.length != 0){
-                    recipe.recipe.ingredients.forEach(ingred => {
+                    for (let i = 0; i < recipe.recipe.ingredients.length; i++) {
+                        const ingred = recipe.recipe.ingredients[i];
                         if( ingred.ingredient.toUpperCase().includes(value.toUpperCase()) && !recipeTmp.includes(recipe) ){
                             recipeTmp.push({'score' : recipe.score++, 'recipe' : recipe.recipe})
                         }
-                    });
+                    };
                 }
-            });
+            };
         }else{
-            recipes.forEach(recipe => {
+            for (let index = 0; index < recipes.length; index++) {
+                const recipe = recipes[index];
                 if(recipe.description.includes(value)){
                     recipeTmp.push(recipe)
                 }else if(recipe.name.includes(value)){
                     recipeTmp.push(recipe)
                 }else if(recipe.ingredients.length != 0){
-                    recipe.ingredients.forEach(ingred => {
+                    for (let i = 0; i < recipe.ingredients.length; i++) {
                         if( ingred.ingredient.toUpperCase().includes(value.toUpperCase()) && !recipeTmp.includes(recipe) ){
                             recipeTmp.push(recipe)
                         }
-                    });
+                    };
                 }
-            });
+            };
         }
         loadRecipes(recipeTmp)
     }else if(!pathOnSearch){
