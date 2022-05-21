@@ -326,7 +326,7 @@ function writeOnSearchBar(pathOnSearch){
                     recipeTmp.push(recipe)
                 }else if(recipe.ingredients.length != 0){
                     for (let i = 0; i < recipe.ingredients.length; i++) {
-                        if( ingred.ingredient.toUpperCase().includes(value.toUpperCase()) && !recipeTmp.includes(recipe) ){
+                        if( recipe.ingredients[i].ingredient.toUpperCase().includes(value.toUpperCase()) && !recipeTmp.includes(recipe) ){
                             recipeTmp.push(recipe)
                         }
                     };
